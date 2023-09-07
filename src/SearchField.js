@@ -8,15 +8,26 @@
 
 'use client';
 
-import {useState, useTransition} from 'react';
+import {useEffect, useState, useTransition} from 'react';
 import {useRouter} from './framework/router';
 
 import Spinner from './Spinner';
+import { useAppContext } from './AppContext';
 
 export default function SearchField() {
   const [text, setText] = useState('');
   const [isSearching, startSearching] = useTransition();
   const {navigate} = useRouter();
+  const value = useAppContext();
+  console.log('useAppContext', useAppContext, useAppContext())
+
+  const [obj, setObj] = useState(null);
+  useEffect(() => {
+    console.log('value', value)
+    if(value)
+      setObj(value)
+  }, [value])
+  console.log('client context', value)
   return (
     <form className="search" role="search" onSubmit={(e) => e.preventDefault()}>
       <label className="offscreen" htmlFor="sidebar-search-input">
@@ -24,7 +35,7 @@ export default function SearchField() {
       </label>
       <input
         id="sidebar-search-input"
-        placeholder="Search"
+        placeholder={obj? obj.name : ''}
         value={text}
         onChange={(e) => {
           const newText = e.target.value;
@@ -36,6 +47,7 @@ export default function SearchField() {
           });
         }}
       />
+      {obj && obj.name}
       <Spinner active={isSearching} />
     </form>
   );

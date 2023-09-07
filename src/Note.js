@@ -1,3 +1,4 @@
+'use server'
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -5,7 +6,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import {format} from 'date-fns';
 
 // Uncomment if you want to read from a file instead.
@@ -33,6 +33,10 @@ export default async function Note({selectedId, isEditing}) {
     }
   }
 
+  function Test() {
+    alert('asdfas')
+  }
+
   const noteResponse = await fetch(`http://localhost:4000/notes/${selectedId}`);
   const note = await noteResponse.json();
 
@@ -56,7 +60,7 @@ export default async function Note({selectedId, isEditing}) {
             <small className="note-updated-at" role="status">
               Last updated on {format(updatedAt, "d MMM yyyy 'at' h:mm bb")}
             </small>
-            <EditButton noteId={id}>Edit</EditButton>
+            <EditButton noteId={id} fn={Test}>Edit</EditButton>
           </div>
         </div>
         <NotePreview body={body} />

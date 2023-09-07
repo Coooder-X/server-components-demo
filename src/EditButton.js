@@ -11,7 +11,7 @@
 import {useTransition} from 'react';
 import {useRouter} from './framework/router';
 
-export default function EditButton({noteId, children}) {
+export default function EditButton({noteId, children, fn}) {
   const [isPending, startTransition] = useTransition();
   const {navigate} = useRouter();
   const isDraft = noteId == null;
@@ -24,6 +24,7 @@ export default function EditButton({noteId, children}) {
       disabled={isPending}
       onClick={() => {
         startTransition(() => {
+          fn();
           navigate({
             selectedId: noteId,
             isEditing: true,
